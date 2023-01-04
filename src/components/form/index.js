@@ -43,7 +43,7 @@ const Form = (props) => {
   return (
     <>
         <form onSubmit={handleSubmit}>
-          <label>
+          <label className="input">
             <span>URL: </span>
             <input data-testid="url-input" name='url' type='text' onChange={handleUrl}/>
             <button data-testid="submit-button" type="submit">GO!</button>
@@ -55,7 +55,9 @@ const Form = (props) => {
             <span id="delete" onClick={handleRestSelection}>DELETE</span>
           </label>
           {validJson ? null : "Invalid JSON"}
-          <textarea rows="15" cols="40" placeholder="Insert JSON object here" onChange={handleData}></textarea>
+          <label>
+            <textarea rows="15" cols="40" placeholder="Insert JSON object here" onChange={handleData}></textarea>
+          </label>
         </form>
       </>
   )
