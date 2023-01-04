@@ -12,7 +12,8 @@ In CLASS-27, we work with `useState()` hooks to manage state within our componen
 
 ### Links and Resources
 
-- [CodeSandbox Link](https://93ylim-3000.preview.csb.app/)
+- [CLASS-26: CodeSandbox Link](https://93ylim-3000.preview.csb.app/)
+- [CLASS-27: CodeSandbox Link](https://41s5fq-3000.preview.csb.app/)
 
 ## UML
 
