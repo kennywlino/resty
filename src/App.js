@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.scss';
 
@@ -17,22 +17,24 @@ const App = () => {
   const [loading, setLoading] = useState(false);
 
   const callApi = async (requestParams) => {
+    setLoading(true);
     setRequestParams(requestParams);
-    let response 
-    try {
-      setLoading(true);
-      response = await axios({
+  }
+
+  useEffect(() => {
+    async function apiCall() {
+      let response = await axios({
         method: requestParams.method,
         url: requestParams.url,
         data: requestParams.data
       })
-      setLoading(false);
       setData(response.data);
-    } catch(e) {
-      console.error(e);
       setLoading(false);
     }
-  }
+    if(Object.keys(requestParams).length > 0) {
+      apiCall();
+    }
+  }, [requestParams]);
 
   return (
     <React.Fragment>
@@ -40,7 +42,7 @@ const App = () => {
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
       <Form handleApiCall={callApi} />
-      {loading ? "loading..." : <Results data-testid="results" data={data} /> }
+      <Results data={data} loading={loading} />
       <Footer />
     </React.Fragment>
   ); 
