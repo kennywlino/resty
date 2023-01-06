@@ -6,7 +6,7 @@ const Form = (props) => {
 
   const [method, setMethod] = useState('GET');
   const [url, setUrl] = useState(null);
-  const [data, setData] = useState({});
+  const [reqData, setReqData] = useState({});
   const [validJson, setValidJson] = useState(true);
 
   const handleSubmit = e => {
@@ -14,7 +14,7 @@ const Form = (props) => {
     const formData = {
       method,
       url,
-      data
+      reqData
     };
     props.handleApiCall(formData);
   }
@@ -32,7 +32,7 @@ const Form = (props) => {
     try {
       let data = JSON.parse(e.target.value);
       console.log(validJson);
-      setData(data)
+      setReqData(data)
       setValidJson(true);
     } catch(e) {
       console.log(validJson);
