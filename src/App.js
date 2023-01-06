@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 
 import './App.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Let's talk about using index.js and some other name in the component folder
 // There's pros and cons for each way of doing this ...

@@ -1,3 +1,5 @@
+import { prettyPrintJson } from "pretty-print-json";
+
 import './history.scss'
 
 const HistoryElement = (props) => {
@@ -7,10 +9,9 @@ const HistoryElement = (props) => {
             {console.log("History Element:", props.item)}
             <h3>URL: {props.item.url}</h3>
             <p>METHOD: {props.item.method}</p>
-            {/* the objects will need <pre> tags */}
             {/* change font for data */}
-            {/*<p>REQUEST DATA: {props.item.reqData}</p>
-            <p>RETRIEVED DATA: {props.item.data}</p> */}
+            <pre dangerouslySetInnerHTML={{ __html: prettyPrintJson.toHtml(props.item.reqData) }} />
+            <pre dangerouslySetInnerHTML={{ __html: prettyPrintJson.toHtml(props.item.data) }} />
         </>
     )
 }
