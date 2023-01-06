@@ -53,6 +53,7 @@ const Form = (props) => {
             <span id="post" onClick={handleRestSelection}>POST</span>
             <span id="put" onClick={handleRestSelection}>PUT</span>
             <span id="delete" onClick={handleRestSelection}>DELETE</span>
+            <span id="show-history" onClick={props.handleShow}>SHOW HISTORY</span>
           </label>
           {validJson ? null : "Invalid JSON"}
           <label>

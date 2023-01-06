@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 // Let's talk about using index.js and some other name in the component folder
 // There's pros and cons for each way of doing this ...
@@ -9,9 +10,8 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
-
-import axios from 'axios';
 import History from './components/history';
+
 
 
 // array of {method, url, results}
@@ -35,12 +35,18 @@ const App = () => {
   const [requestParams, setRequestParams] = useState({});
   const [loading, setLoading] = useState(false);
   const [state, dispatch] = useReducer(apiHistoryReducer, initialState);
+  const [showHistory, setShowHistory] = useState(false);
+
+  const handleClose = () => setShowHistory(false);
+  const handleShow = () => setShowHistory(true);
+
+  
 
   const addToApiHistory = () => {
     let action = {
       type: 'ADD',
       // an object with {(method, url, reqData) + (data)}
-      payload: {...requestParams, data} 
+      payload: {requestParams, data} 
     }
     dispatch(action)
   }
@@ -48,7 +54,7 @@ const App = () => {
   const removeFromApiHistory = (index) => {
     let action = {
       type: 'REMOVE',
-      payload: index // url? or use array index as id for better specificity 
+      payload: index // use array index as id for better specificity 
     }
     dispatch(action)
   }
@@ -72,8 +78,6 @@ const App = () => {
     }
     if(Object.keys(requestParams).length > 0) {
       apiCall();
-      console.log('data:', data);
-      console.log('apiHistory:', state.apiHistory);
     }
   }, [requestParams]);
 
@@ -89,8 +93,8 @@ const App = () => {
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleApiCall={callApi} />
-      <History apiHistory={state.apiHistory} />
+      <Form handleApiCall={callApi} handleShow={handleShow}/>
+      <History apiHistory={state.apiHistory} showHistory={showHistory} handleClose={handleClose} removeFromApiHistory={removeFromApiHistory} setRequestParams={setRequestParams} setData={setData} />
       <Results data={data} loading={loading} />
       <Footer />
     </React.Fragment>
