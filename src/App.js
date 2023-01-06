@@ -23,7 +23,7 @@ export const apiHistoryReducer = (state = initialState, action) => {
     case 'ADD':
       return {...state, apiHistory: [...state.apiHistory, action.payload]};
     case 'REMOVE':
-      return {...state, apiHistory: state.apiHistory.filter(item => item !== action.payload)};
+      return {...state, apiHistory: state.apiHistory.filter((item, index) => index !== action.payload)};
     default: 
       return state;
   }
@@ -38,16 +38,16 @@ const App = () => {
   const addToApiHistory = () => {
     let action = {
       type: 'ADD',
-      // an object with {(method, url, data) + (data retrieved)}
-      payload: {...requestParams, ...data} 
+      // an object with {(method, url, reqData) + (data)}
+      payload: {...requestParams, data} 
     }
     dispatch(action)
   }
 
-  const removeFromApiHistory = () => {
+  const removeFromApiHistory = (index) => {
     let action = {
       type: 'REMOVE',
-      payload: {} // url? or use array index as id for better specificity 
+      payload: index // url? or use array index as id for better specificity 
     }
     dispatch(action)
   }
@@ -71,8 +71,17 @@ const App = () => {
     }
     if(Object.keys(requestParams).length > 0) {
       apiCall();
+      console.log('data:', data);
+      console.log('apiHistory:', state.apiHistory);
     }
   }, [requestParams]);
+
+  // saves the API call data to apiHistory when data is updated
+  useEffect(() => {
+    if (data) {
+      addToApiHistory();
+    }
+  }, [data]);
 
   return (
     <React.Fragment>
@@ -80,7 +89,7 @@ const App = () => {
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
       <Form handleApiCall={callApi} />
-      <History apiHistory={state.apiHistory}/>
+      <History apiHistory={state.apiHistory} />
       <Results data={data} loading={loading} />
       <Footer />
     </React.Fragment>
